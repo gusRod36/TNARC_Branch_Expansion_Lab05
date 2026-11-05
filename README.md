@@ -23,6 +23,7 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 | Block | Use | Notes |
 |-------|-----|-------|
 | 203.0.113.15/32 | HQ-Edge-RTR Loopback1 - Tunnel endpoint | Spare address from TNARC's block |
+| 198.51.100.8/30 | ISP1 -> ISP2 | Connection between ISPs for Failover, wishful thinking as it is not currently possible with this router |
 | 198.51.100.12/30 | BR1-Edge-RTR -> ISP1 | Public address comes from ISP1 |
 | 198.51.100.16/30 | BR2-Edge-RTR -> ISP2 | Public address comes from ISP2 |
 | 10.0.253.0/30 | Tunnel1 - HQ-Edge-RTR -> BR1-Edge-RTR | Tunnel address | 
