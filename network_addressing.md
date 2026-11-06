@@ -81,32 +81,43 @@
 ## BR1-ASA-1
 | Port | | Device | Port | Subnet | IP Address |
 |------|-|--------|------|--------|------------|
+| g1/1 | -> | BR1-Edge-RTR | g0/2 | 10.1.250.0/30 | 10.1.250.2 |
+| g1/2 | -> | BR1-Core-01 | g1/0/7 | 10.1.255.56/30 | 10.1.255.58 |
+| g1/3 | -> | BR1-Core-02 | g1/0/7 | 10.1.255.60/30 | 10.1.255.62 |
+
 
 ## BR1-Edge-RTR
 | Port | | Device | Port | Subnet | IP Address |
 |------|-|--------|------|--------|------------|
+| g0/0 | -> | ISP1-RTR | | 198.51.100.12/30 | 198.51.100.14 |
+| g0/2 | -> | BR1-ASA-1 | g1/1 | 10.1.250.0/30 | 10.1.250.1 |
+| loopback0 | | | | 10.1.254.5/32 | 10.1.254.5 |
 
 # Branch 2
 
 ## BR2-Core-01
-| Port | | Device | Port | Subnet | IP Address |
-|------|-|--------|------|--------|------------|
+| Port | | Device | Port | Subnet | IP Address | Protocol |
+|------|-|--------|------|--------|------------|----------|
 
 ## BR2-Core-02
-| Port | | Device | Port | Subnet | IP Address |
-|------|-|--------|------|--------|------------|
+| Port | | Device | Port | Subnet | IP Address | Protocol |
+|------|-|--------|------|--------|------------|----------|
 
 ## BR2-Dist-01
-| Port | | Device | Port | Subnet | IP Address |
-|------|-|--------|------|--------|------------|
+| Port | | Device | Port | Subnet | IP Address | Protocol |
+|------|-|--------|------|--------|------------|----------|
 
 ## BR2-Dist-02
-| Port | | Device | Port | Subnet | IP Address |
-|------|-|--------|------|--------|------------|
+| Port | | Device | Port | Subnet | IP Address | Protocol |
+|------|-|--------|------|--------|------------|----------|
 
 ## BR2-Access-SW01
+| Port | Switchport Mode | VLAN(s) | Native |
+|------|-----------------|---------|--------|
 
 ## BR2-Access-SW02
+| Port | Switchport Mode | VLAN(s) | Native |
+|------|-----------------|---------|--------|
 
 ## BR2-ASA-1
 | Port | | Device | Port | Subnet | IP Address |
