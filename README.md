@@ -1,6 +1,7 @@
 # TNARC Lab 05: Branch Expansion over Encrypted Internet VPNs
 
-<img src="./images/TNARC_Branches_Topology.JPG" alt="">
+<img src="./images/TNARC_Branches_Topology_top.JPG" alt="" >
+<img src="./images/TNARC_Branches_Topology_bottom.JPG" alt="" width="1495">
 
 ## The Problem
 TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 2) that runs EIGRP. Leased private lines are slow to order and expensive, so both branches will connect over ordinary business internet. Client finanacial data will cross the internet so EVERY company flow between sites must be encrypted. Both branches will need HQ's services (DHCP, DNS, AAA, logging) and its servers, and HQ's firewall must still inspect what reaches them. The design must be capable of scaling so when a new branch joins nothing is redesigned. 
