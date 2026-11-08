@@ -19,6 +19,29 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 9. Tunnels survive the failure of ISP1 at HQ.
 
 ## Topology
+#### Branch 1
+| Device | Model | Role |
+|--------|-------|------|
+| BR1-Edge-RTR | 2911 | Connects the Network to ISP1 (ISP2 in a real scenario as failover) |
+| BR1-ASA-1 | 5506-X | Filtering and Policy management for the branch |
+| BR1-Core-1 | 3306 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
+| BR1-Core-2 | 3306 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
+| BR1-Dist-1 | 3306 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
+| BR1-Dist-2 | 3306 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
+| BR1-Access-SW1 | 2960 | Hosts VLANs 10 and 20, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
+| BR1-Access-SW2 | 2960 | Hosts VLANs 30 and 99, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
+
+#### Branch 2 
+| Device | Model | Role |
+|--------|-------|------|
+| BR2-Edge-RTR | 2911 | Connects the Network to ISP2 (ISP1 in a real scenario as failover) |
+| BR2-ASA-1 | 5506-X | Filtering and Policy management for the branch |
+| BR2-Core-1 | 3306 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
+| BR2-Core-2 | 3306 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
+| BR2-Dist-1 | 3306 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
+| BR2-Dist-2 | 3306 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
+| BR2-Access-SW1 | 2960 | Hosts VLANs 10 and 20, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
+| BR2-Access-SW2 | 2960 | Hosts VLANs 30 and 99, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 
 ## Network Addressing
 | Block | Use | Notes |
@@ -33,6 +56,12 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 | 172.16.0.0/16 | Branch 2 LANs (acquired) | Chose this address to spot the EIGRP standout |
 
 ## Key Decisions
+1. Branch 1 was built with OSPF area 0 and area 1, while the acquired branch 2 came with EIGRP process 100. Branch 2 was kept in EIGRP and will be advertised as such through GRE over IPSec.
+
+2. NAT/PAT will be kept within the owned TNARC block of 203.0.113.16/28 for branch 1 and 203.0.113.32/28 for branch 2. NAT/PAT will also happen at the Edge-RTR of each branch.
+    - Additionally this time the PAT pool will only be from 203.0.113.17-23 and 203.0.113.33-39. The rest of the block will be kept as spare static addresses.
+
+3. Both branches will have their own firewalls with similar policies and filters, and the single point of failure would be the Edge-RTRs this is an accepted risk, though in a better case I would give failure via HA. 
 
 ## Verification
 
