@@ -1,7 +1,7 @@
 # TNARC Lab 05: Branch Expansion over Encrypted Internet VPNs
 
 <img src="./images/TNARC_Branches_Topology_top.JPG" alt="" >
-<img src="./images/TNARC_Branches_Topology_bottom.JPG" alt="" width="1495">
+<img src="./images/TNARC_Branches_Topology_bottom.JPG" alt="" width="1375">
 
 ## The Problem
 TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 2) that runs EIGRP. Leased private lines are slow to order and expensive, so both branches will connect over ordinary business internet. Client finanacial data will cross the internet so EVERY company flow between sites must be encrypted. Both branches will need HQ's services (DHCP, DNS, AAA, logging) and its servers, and HQ's firewall must still inspect what reaches them. The design must be capable of scaling so when a new branch joins nothing is redesigned. 
@@ -61,10 +61,13 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 2. NAT/PAT will be kept within the owned TNARC block of 203.0.113.16/28 for branch 1 and 203.0.113.32/28 for branch 2. NAT/PAT will also happen at the Edge-RTR of each branch.
     - Additionally this time the PAT pool will only be from 203.0.113.17-23 and 203.0.113.33-39. The rest of the block will be kept as spare static addresses.
 
-3. Both branches will have their own firewalls with similar policies and filters, and the single point of failure would be the Edge-RTRs this is an accepted risk, though in a better case I would give failure via HA. 
+3. Both branches will have their own firewalls with similar policies and filters, and the single point of failure would be the Edge-RTRs this is an accepted risk, though in a better case I would give redundancy via HA.
 
 ## Verification
 
 ## Challenges and Fixes
+1. When EIGRP was added there was some flapping happening with the HSRP for all VLANs. This was being caused by goodbye messages being sent to the VLANs because of EIGRP passive interfaces not being set. The fix was simply setting each vlan's interface in 'passive-interface' mode and the port interfaces that host the VLANs as well.
+
+2. 
 
 ## What I'd do next 
