@@ -63,6 +63,8 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 
 3. Both branches will have their own firewalls with similar policies and filters, and the single point of failure would be the Edge-RTRs this is an accepted risk, though in a better case I would give redundancy via HA.
 
+4. GRE over IPsec will be done using the ISP1 public addresses instead of TNARC's public block because CPT doesn't sufficiently support VPN encryption on loopback address sources.
+
 ## Verification
 
 ## Challenges and Fixes
