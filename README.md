@@ -24,10 +24,10 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 |--------|-------|------|
 | BR1-Edge-RTR | 2911 | Connects the Network to ISP1 (ISP2 in a real scenario as failover) |
 | BR1-ASA-1 | 5506-X | Filtering and Policy management for the branch |
-| BR1-Core-1 | 3306 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
-| BR1-Core-2 | 3306 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
-| BR1-Dist-1 | 3306 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
-| BR1-Dist-2 | 3306 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
+| BR1-Core-1 | 3650 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
+| BR1-Core-2 | 3650 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
+| BR1-Dist-1 | 3650 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
+| BR1-Dist-2 | 3650 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
 | BR1-Access-SW1 | 2960 | Hosts VLANs 10 and 20, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 | BR1-Access-SW2 | 2960 | Hosts VLANs 30 and 99, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 
@@ -36,10 +36,10 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 |--------|-------|------|
 | BR2-Edge-RTR | 2911 | Connects the Network to ISP2 (ISP1 in a real scenario as failover) |
 | BR2-ASA-1 | 5506-X | Filtering and Policy management for the branch |
-| BR2-Core-1 | 3306 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
-| BR2-Core-2 | 3306 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
-| BR2-Dist-1 | 3306 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
-| BR2-Dist-2 | 3306 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
+| BR2-Core-1 | 3650 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
+| BR2-Core-2 | 3650 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
+| BR2-Dist-1 | 3650 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
+| BR2-Dist-2 | 3650 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
 | BR2-Access-SW1 | 2960 | Hosts VLANs 10 and 20, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 | BR2-Access-SW2 | 2960 | Hosts VLANs 30 and 99, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 
@@ -51,9 +51,10 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 | 198.51.100.12/30 | BR1-Edge-RTR -> ISP1 | Public address comes from ISP1 |
 | 198.51.100.16/30 | BR2-Edge-RTR -> ISP2 | Public address comes from ISP2 |
 | 10.0.253.0/30 | Tunnel1 - HQ-Edge-RTR -> BR1-Edge-RTR | Tunnel address | 
-| 10.0.253.4/30 | Tunnel2 - HQ-Edge-RTR -> BR2-Edge-RTR | |
+| 10.0.253.4/30 | Tunnel2 - HQ-Edge-RTR -> BR2-Edge-RTR | Tunnel address |
 | 10.1.0.0/16 | Branch 1 LANs | Follows the same pattern as HQ for VLANs. |
 | 172.16.0.0/16 | Branch 2 LANs (acquired) | Chose this address to spot the EIGRP standout |
+
 
 ## Key Decisions
 1. Branch 1 was built with OSPF area 0 and area 1, while the acquired branch 2 came with EIGRP process 100. Branch 2 was kept in EIGRP and will be advertised as such through GRE over IPSec.
