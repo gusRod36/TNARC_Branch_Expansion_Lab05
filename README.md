@@ -4,10 +4,12 @@
 <img src="./images/TNARC_Branches_Topology_bottom.JPG" alt="HQ Network Topology" width="1575">
 
 ## The Problem
+
 TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 2) that runs EIGRP. Leased private lines are slow to order and expensive, so both branches will connect over ordinary business internet. Client finanacial data will cross the internet so EVERY company flow between sites must be encrypted. Both branches will need HQ's services (DHCP, DNS, AAA, logging) and its servers, and HQ's firewall must still inspect what reaches them. The design must be capable of scaling so when a new branch joins nothing is redesigned. 
 
 
 ## Requirements
+
 1. Every site reaches every other site.
 2. All traffic between sites is encrypted.
 3. Routes are exchanged dynamically over the tunnels.
@@ -19,31 +21,35 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 9. Tunnels survive the failure of ISP1 at HQ.
 
 ## Topology
+
 #### Branch 1
+
 | Device | Model | Role |
 |--------|-------|------|
 | BR1-Edge-RTR | 2911 | Connects the Network to ISP1 (ISP2 in a real scenario as failover) |
 | BR1-ASA-1 | 5506-X | Filtering and Policy management for the branch |
 | BR1-Core-1 | 3650 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
 | BR1-Core-2 | 3650 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
-| BR1-Dist-1 | 3650 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
-| BR1-Dist-2 | 3650 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
+| BR1-Dist-1 | 3650 | STP: Root primary for VLANs 10,20,30, and 99. |
+| BR1-Dist-2 | 3650 | STP: Root secondary for VLANs 10,20,30, and 99. Failover for Dist-1. |
 | BR1-Access-SW1 | 2960 | Hosts VLANs 10 and 20, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 | BR1-Access-SW2 | 2960 | Hosts VLANs 30 and 99, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 
 #### Branch 2 
+
 | Device | Model | Role |
 |--------|-------|------|
 | BR2-Edge-RTR | 2911 | Connects the Network to ISP2 (ISP1 in a real scenario as failover) |
 | BR2-ASA-1 | 5506-X | Filtering and Policy management for the branch |
 | BR2-Core-1 | 3650 | Routed ports for traffic from Dist 1 and 2, failover with Core-2 via HSRP |
 | BR2-Core-2 | 3650 | Routed ports for traffic from Dist 2 and 1, failover with Core-1 via HSRP |
-| BR2-Dist-1 | 3650 | STP: Root primary for VLANs 10 and 20. Failover for VLANs 30,99. |
-| BR2-Dist-2 | 3650 | STP: Root primary for VLANs 30 and 99. Failover for VLANs 10,20. |
+| BR2-Dist-1 | 3650 | STP: Root primary for VLANs 10,20,30, and 99. |
+| BR2-Dist-2 | 3650 | STP: Root secondary for VLANs 10,20,30, and 99. Failover for Dist-1. |
 | BR2-Access-SW1 | 2960 | Hosts VLANs 10 and 20, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 | BR2-Access-SW2 | 2960 | Hosts VLANs 30 and 99, Port-security with maximum 1 MAC, sticky learning and shutdown violation |
 
 ## Network Addressing
+
 | Block | Use | Notes |
 |-------|-----|-------|
 | 203.0.113.15/32 | HQ-Edge-RTR Loopback1 - Tunnel endpoint | Spare address from TNARC's block |
@@ -57,6 +63,7 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 
 
 ## Key Decisions
+
 1. Branch 1 was built with OSPF area 0 and area 1, while the acquired branch 2 came with EIGRP process 100. Branch 2 was kept in EIGRP and will be advertised as such through GRE over IPSec.
 
 2. NAT/PAT will be kept within the owned TNARC block of 203.0.113.16/28 for branch 1 and 203.0.113.32/28 for branch 2. NAT/PAT will also happen at the Edge-RTR of each branch.
@@ -66,11 +73,14 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 
 4. GRE over IPsec will be done using the ISP1 public addresses instead of TNARC's public block because CPT doesn't sufficiently support VPN encryption on loopback address sources.
 
+5. Distribution-1 switches became the primary path for all VLANs on each network to ensure traffic is follwing the same path beginning to end. Distribution-2 switches will serve as strictly backup for each LAN. STP root primary for all VLANs and HSRP active on Dist-1 now.
+
 ## Verification
 
 ## Challenges and Fixes
+
 1. When EIGRP was added there was some flapping happening with the HSRP for all VLANs. This was being caused by goodbye messages being sent to the VLANs because of EIGRP passive interfaces not being set. The fix was simply setting each vlan's interface in 'passive-interface' mode and the port interfaces that host the VLANs as well.
 
-2. 
+2. DHCP 'DORA' experienced a problem with packet splitting at the Distribution and Core switches, this would cause the host to not receive the final ACK of the DHCP address assignments. I decided to make Dist-1 the main switch for all traffic for all VLANs (for each branch), and Dist-2 will be used as a backup path when Dist-1 goes down. This allowed all packet traffic to go through the same path and completing the DORA successfully.
 
 ## What I'd do next 
