@@ -56,8 +56,8 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 | 198.51.100.8/30 | ISP1 -> ISP2 | Connection between ISPs for Failover, wishful thinking as it is not currently possible with this router |
 | 198.51.100.12/30 | BR1-Edge-RTR -> ISP1 | Public address comes from ISP1 |
 | 198.51.100.16/30 | BR2-Edge-RTR -> ISP2 | Public address comes from ISP2 |
-| 10.0.253.0/30 | Tunnel1 - HQ-Edge-RTR -> BR1-Edge-RTR | Tunnel address | 
-| 10.0.253.4/30 | Tunnel2 - HQ-Edge-RTR -> BR2-Edge-RTR | Tunnel address |
+| 10.1.253.0/30 | Tunnel1 - HQ-Edge-RTR -> BR1-Edge-RTR | Tunnel address | 
+| 172.16.253.0/30 | Tunnel2 - HQ-Edge-RTR -> BR2-Edge-RTR | Tunnel address |
 | 10.1.0.0/16 | Branch 1 LANs | Follows the same pattern as HQ for VLANs. |
 | 172.16.0.0/16 | Branch 2 LANs (acquired) | Chose this address to spot the EIGRP standout |
 
