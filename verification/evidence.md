@@ -48,9 +48,17 @@
 
 # Requirement 5: Branch user reach the internet through their own connections.
 
+#### BR1 Host reaches web behind ISP1
+
+<img src="../images/verifications/R5-BR1_host-reaches-intsrv_behind_ISP1.JPG" alt="BR1 Reaches internet web" width="650">
+
+#### BR2 Host reaches web behind ISP2 
+
+<img src="../images/verifications/R5-BR2_host-reaches-intsrv_behind_ISP2.JPG" alt="BR2 Reaches internet web" width="650">
+
 # Requirement 6: Branch traffic to HQ is inspected by the ASA, with only the needed flows allowed.
 
-[The full list of ACLs can be found here](../ASA_ACLs.md)
+[The full list of ACLs can be found here](../verification/ASA_ACLs.md)
 
 # Requirement 7: Branch users get addresses from the HQ DHCP server.
 

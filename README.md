@@ -60,6 +60,8 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 | 172.16.253.0/30 | Tunnel2 - HQ-Edge-RTR -> BR2-Edge-RTR | Tunnel address |
 | 10.1.0.0/16 | Branch 1 LANs | Follows the same pattern as HQ for VLANs. |
 | 172.16.0.0/16 | Branch 2 LANs (acquired) | Chose this address to spot the EIGRP standout |
+| 192.0.2.0/24 | ISP1 LAN | The test network behind ISP1 |
+| 192.18.0.0/24 | ISP2 LAN | The test network behind ISP2 |
 
 
 ## Key Decisions
@@ -83,11 +85,11 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 | 2 | R2 | Monitor packets being sent site to site and check that tunnels are active | ESP header in packets and ACTIVE status for tunnels. | [ESP + ACTIVE status](./verification/evidence.md#requirement-2-all-traffic-between-sites-is-encrypted) |
 | 3 | R3 | Check Routing Table on Edge-RTR's at each site | Each site's network shared via tunnel1 or tunnel2 | [Routing Tables](./verification/evidence.md#requirement-3-routes-are-exchanged-dynamically-over-the-tunnels) |
 | 4 | R4 | Check the OSPF and EIGRP neighbors at HQ Edge Router | Both Routing protocols shared at HQ | [Routing Protocol Neighbors](./verification/evidence.md#requirement-4-ospf-and-eigrp-share-routes-at-exactly-one-point)
-| 5 | R5 |
+| 5 | R5 | Web browse from a host at both branches | Successfully reach web server behind ISPs | [ISP web servers reached](./verification/evidence.md#requirement-5-branch-user-reach-the-internet-through-their-own-connections) |
 | 6 | R6 | Check list of ACL's at HQ and other branch firewalls | Only the needed service/traffic flows allowed. | [Firewalls rules and policies](./verification/evidence.md#requirement-6-branch-traffic-to-hq-is-inspected-by-the-asa-with-only-the-needed-flows-allowed) |
 | 7 | R7 | Release and renew IP lease on BR1 and BR2 host PCs | Successful DHCP assignments from centralized server at HQ | [DHCP request successful](./verification/evidence.md#requirement-7-branch-users-get-addresses-from-the-hq-dhcp-server) |
-| 8 | R8 |
-| 9 | R9 |
+| 8 | R8 | Cross reference security baselines between HQ and Branches | Branches meet Lab 2 and Lab 3 hardening security baselines |   |
+| 9 | R9 | Simulate a router crash at either ISP to show tunnel failover | Tunnels 3 and 4 takeover when tunnel 1 and 2 fail |   |
 
 ## Challenges and Fixes
 

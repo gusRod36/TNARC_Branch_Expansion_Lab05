@@ -45,19 +45,27 @@
 |------|-----|-----|----------|--------|------|-------------|------|
 | 1 | OUTSIDE-IN | permit | icmp | object HQ-NET |  | object BR1 | echo |
 | 2 | OUTSIDE-IN | permit | icmp | object BR2 |  | object BR1 | echo |
-| 3 | OUTSIDE-IN | permit | tcp | object HQ-MGMT1 |  | object BR1-MGMT | eq 22 |
-| 4 | OUTSIDE-IN | permit | tcp | object HQ-MGMT2 |  | object BR1-MGMT | eq 22 |
-| 5 | OUTSIDE-IN | permit | tcp | object BR2-MGMT |  | object BR1-MGMT | eq 22 |
-| 6 | OUTSIDE-IN | permit | udp | object DHCP-SRV | eq 67 | object BR1 | eq 67 |
-| 7 | OUTSIDE-IN | deny | ip | any |  | any |
+| 3 | OUTSIDE-IN | permit | udp | object DHCP-SRV | eq 67 | object BR1 | eq 67 |
+| 4 | OUTSIDE-IN | permit | tcp | object HQ-MGMT1 |  | object BR1 | eq 22 |
+| 5 | OUTSIDE-IN | permit | tcp | object HQ-MGMT2 |  | object BR1 | eq 22 |
+| 6 | OUTSIDE-IN | permit | tcp | object BR2-MGMT |  | object BR1 | eq 22 |
+| 7 | OUTSIDE-IN | permit | tcp | 192.0.2.0/24 | eq 80 | object BR1 |
+| 8 | OUTSIDE-IN | permit | tcp | 192.18.0.0/24 | eq 80 | object BR1 |
+| 9 | OUTSIDE-IN | permit | tcp | 192.0.2.0/24 | eq 443 | object BR1 |
+| 10 | OUTSIDE-IN | permit | tcp | 192.18.0.0/24 | eq 443 | object BR1 |
+| 11 | OUTSIDE-IN | deny | ip | any |  | any |
 
 ## BR2-ASA-1
 | Line | ACL | P/D | Protocol | Source | Port | Destination | Port |
 |------|-----|-----|----------|--------|------|-------------|------|
 | 1 | OUTSIDE-IN | permit | icmp | object HQ-NET |  | object BR2 | echo |
 | 2 | OUTSIDE-IN | permit | icmp | object BR1 |  | object BR2 | echo |
-| 3 | OUTSIDE-IN | permit | tcp | object HQ-MGMT1 |  | object BR2-MGMT | eq 22 |
-| 4 | OUTSIDE-IN | permit | tcp | object HQ-MGMT2 |  | object BR2-MGMT | eq 22 |
-| 5 | OUTSIDE-IN | permit | tcp | object BR1-MGMT |  | object BR2-MGMT | eq 22 |
-| 6 | OUTSIDE-IN | permit | udp | object DHCP-SRV | eq 67 | object BR2 | eq 67 |
+| 3 | OUTSIDE-IN | permit | udp | object DHCP-SRV | eq 67 | object BR2 | eq 67 |
+| 4 | OUTSIDE-IN | permit | tcp | object HQ-MGMT1 |  | object BR2 | eq 22 |
+| 5 | OUTSIDE-IN | permit | tcp | object HQ-MGMT2 |  | object BR2 | eq 22 |
+| 6 | OUTSIDE-IN | permit | tcp | object BR1-MGMT |  | object BR2 | eq 22 |
+| 7 | OUTSIDE-IN | permit | tcp | 192.0.2.0/24 | eq 80 | object BR2 |
+| 8 | OUTSIDE-IN | permit | tcp | 192.18.0.0/24 | eq 80 | object BR2 |
+| 9 | OUTSIDE-IN | permit | tcp | 192.0.2.0/24 | eq 443 | object BR2 |
+| 10 | OUTSIDE-IN | permit | tcp | 192.18.0.0/24 | eq 443 | object BR2 |
 | 7 | OUTSIDE-IN | deny | ip | any |  | any |
