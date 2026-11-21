@@ -154,3 +154,7 @@ TNARC is opening two separate branches, Branch 1 and has aquired a firm (branch 
 
 
 ## What I'd do next 
+1. Upgrade Edge-Routers to Multilayer Switches to be able to add ISP redundancy
+2. Migrate to SD-WAN
+3. Add Wi-Fi to every site
+4. Branch-to-Branch traffic
